@@ -18,7 +18,9 @@ headers_Get = {
 def read_word_txt():
     with open('company.txt') as f:
         contents = f.read()
-        return contents
+        print(contents)
+
+    pass
 
 def google_search(q):
     '''function to perform google search for company'''
@@ -126,13 +128,12 @@ def save_email(comp_email):
         if len(data) > 0:
             file_object.write("\n")
         file_object.write(comp_email)
-res = read_word_txt()
+
 result = google_search('movit')
 result_2 = scrap_company(result)
 result_3 = list_all_urls(result_2)
 result_4 = twitter_company_search(result_2)
 result_5 = email_search(result_4)
 result_6 = save_email(result_5)
-
 
 
