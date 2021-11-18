@@ -15,12 +15,6 @@ headers_Get = {
         'Upgrade-Insecure-Requests': '1'
 }
 
-def read_word_txt():
-    with open('company.txt') as f:
-        contents = f.read()
-        print(contents)
-
-    pass
 
 def google_search(q):
     '''function to perform google search for company'''
@@ -45,18 +39,27 @@ def scrap_company(url):
         print(f'This company doesnot have a twitter handle, {err}')
 
 def list_all_urls(results):
-    '''function to list all the urs scrapped'''
+    # '''function to list all the urs scrapped'''
     for result in results:
-        url = result.find('a')["href"] 
-        test = url.split('url=')[-1]
-        new_url = test.split('/&')[:1]
-        str1 = ''.join(new_url)
-        x = str1.startswith("http")
-        # return str1
-        if x is True:
-            # print(f'url: {str1}')
-            # print(str1)
-            yield str1
+        for links in result.find_all('a'):
+            url = links.get('href')
+            test = url.split('url=')[-1]
+            new_url = test.split('/&')[:1]
+            str1 = ''.join(new_url)
+            x = str1.startswith("http")
+            if x is True:
+                print(str1)
+                yield str1
+        # url = result.find_all('a').attrs['href']
+        # print(url)
+        # test = url.split('url=')[-1]
+        # new_url = test.split('/&')[:1]
+        # str1 = ''.join(new_url)
+        # x = str1.startswith("http")
+        # # return str1
+        # if x is True:
+        #     print(str1)
+        #     # yield str1
 
 
 def twitter_company_search(results):
@@ -76,7 +79,6 @@ def twitter_company_search(results):
             if x_2 is True:
                 new_url = test_2.split('%')[:1]
                 str1 = ", ".join(new_url)
-                print(str1)
                 driver.get(str1)
                 players = driver.find_element(By.CSS_SELECTOR, '#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-14lw9ot.r-jxzhtn.r-1ljd8xs.r-13l2t4g.r-1phboty.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(2) > div > div > div:nth-child(1) > div > div:nth-child(4) > div > a')
                 links = players.get_attribute('href')
@@ -129,11 +131,6 @@ def save_email(comp_email):
             file_object.write("\n")
         file_object.write(comp_email)
 
-result = google_search('movit')
-result_2 = scrap_company(result)
-result_3 = list_all_urls(result_2)
-result_4 = twitter_company_search(result_2)
-result_5 = email_search(result_4)
-result_6 = save_email(result_5)
+
 
 
