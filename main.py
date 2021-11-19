@@ -49,18 +49,7 @@ def list_all_urls(results):
             x = str1.startswith("http")
             if x is True:
                 print(str1)
-                yield str1
-        # url = result.find_all('a').attrs['href']
-        # print(url)
-        # test = url.split('url=')[-1]
-        # new_url = test.split('/&')[:1]
-        # str1 = ''.join(new_url)
-        # x = str1.startswith("http")
-        # # return str1
-        # if x is True:
-        #     print(str1)
-        #     # yield str1
-
+                yield str1    
 
 def twitter_company_search(results):
     '''function to search for company details on twitter'''
@@ -88,24 +77,20 @@ def twitter_company_search(results):
 
             while(True):
                 pass
+
 def email_search(links):
     '''search company homepage for email'''
     url = links
     driver = webdriver.Chrome('/home/jimmy/NickSon/test webscrapp/chromedriver')
     driver.get(url)
-    # r = driver.page_source
-    # soup = BeautifulSoup(r, "lxml")
-    # print(soup)
 
     elems = driver.find_elements_by_xpath("//a[@href]")
     output = []
     for elem in elems:
         if 'contact-us' in elem.get_attribute("href") or 'contact' in elem.get_attribute("href"):
-                # print(elem.get_attribute("href"))
                 x =  elem.get_attribute("href")
                 output.append(x)
     url_contact = output[0]
-    # print(output)
 
     n = requests.get(url_contact, headers=headers_Get)
 
